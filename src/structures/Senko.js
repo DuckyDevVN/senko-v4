@@ -1,10 +1,11 @@
 const { Client, Collection, GatewayIntentBits, Partials, ActivityType } = require('discord.js');
-const { connection } = require('mongoose');
+const { connection, model, Schema } = require('mongoose');
 const { AsciiTable3 } = require('ascii-table3');
 const { readdirSync, lstatSync } = require('fs');
 const { join } = require('path');
 const chalk = require('chalk');
 const config = require('../../config');
+const { player } = require('../Schema/player');
 
 class Senko extends Client {
     constructor() {
@@ -25,18 +26,23 @@ class Senko extends Client {
                 roles: [],
                 repliedUser: false
             },
-            failIfNotExists: true,
-            presense: {
-                status: 'online',
-                activities: {
-                    name: 'Senko\'s Coffee',
-                    type: ActivityType.Watching
-                }
-            }
+            failIfNotExists: true
         });
 
+        this.config = config;
         this.messageCommands = new Collection();
         this.applicationCommands = new Collection();
+
+        // database
+        // cái này là function à
+        // yes
+        // nếu thế thì chắc sẽ tách file ra cho dễ tìm
+        /**
+         *         this.bal = (id) => Promise(f => {
+            const data = await player.findOne(id)
+            if (!data) re ful(0)
+        })
+         */
     };
 
     _loadEvents(folder) {
@@ -59,7 +65,18 @@ class Senko extends Client {
 
         this[`${folder}EventsLoaded`] = total;
     };
+    _loandfunction(folder) {
+        let total = 0;
+        const path = join(__dirname, `../functions/${folder}`);
 
+        readdirSync(path)
+            .filter(file => lstatSync(join(path, file)).isFile && file.endsWith('.js'))
+            .forEach(file => {
+                const functions = require(`../functions/${folder}/${file}`)(this)
+                total++;
+            })
+        this[`${folder}FunctionsLoaded`] = total;
+    };
     _loadCommands(folder) {
         let total = 0;
         const path = join(__dirname, `../${folder}`);
@@ -71,10 +88,12 @@ class Senko extends Client {
                         .filter(file => lstatSync(join(path, dir, file)).isFile() && file.endsWith('.js'))
                         .forEach(file => {
                             const command = require(`../${folder}/${dir}/${file}`);
+                            command.dir = dir
                             if (command.name) { this[folder].set(command.name, command); total++ };
                         });
                 } else if (lstatSync(join(path, dir)).isFile() && dir.endsWith('.js')) {
-                    const command = require(`../${folder}/${dir}`)
+                    const command = require(`../${folder}/${dir}`);
+                    command.dir = 'none';
                     if (command.name) { this[folder].set(command.name, command); total++ };
                 };
             });
@@ -83,11 +102,12 @@ class Senko extends Client {
     };
 
     build() {
+        this._loandfunction('mongo');
         this._loadEvents('client');
         this._loadEvents('mongo');
         this._loadCommands('messageCommands');
         this._loadCommands('applicationCommands');
-        this.login(config.token);
+        this.login(this.config.token);
 
         const table = new AsciiTable3()
             .setHeading(chalk.green('Loaded'), chalk.green('Number'))
@@ -95,6 +115,7 @@ class Senko extends Client {
             .addRowMatrix([
                 [chalk.yellowBright('Client events'), this.clientEventsLoaded],
                 [chalk.yellowBright('Database events'), this.mongoEventsLoaded],
+                [chalk.yellowBright('Database functions'), this.mongoFunctionsLoaded],
                 [chalk.yellowBright('Message Commands'), this.messageCommandsLoaded],
                 [chalk.yellowBright('Application Commands'), this.applicationCommandsLoaded]
             ]);

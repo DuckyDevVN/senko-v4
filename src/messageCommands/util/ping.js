@@ -1,11 +1,13 @@
-const { Client, Message, EmbedBuilder } = require('discord.js');
+const { Message, EmbedBuilder } = require('discord.js');
+const { Senko } = require('../../structures/Senko');
 
 module.exports = {
     name: 'ping',
-
+    description: 'dùng để xem độ trễ của bot',
+    usages: ['skping'],
     /**
      * 
-     * @param { Client } client
+     * @param { Senko } client
      * @param { Message } message
      * @param { String[] } args
      */

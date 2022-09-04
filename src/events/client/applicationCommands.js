@@ -1,11 +1,12 @@
-const { Client, CommandInteraction, ApplicationCommandOptionType } = require('discord.js');
+const { CommandInteraction, ApplicationCommandOptionType } = require('discord.js');
+const Senko = require('../../structures/Senko');
 
 module.exports = {
     name: 'interactionCreate',
     /**
      * 
      * @param { CommandInteraction } interaction
-     * @param { Client } client
+     * @param { Senko } client
      */
     execute: async (interaction, client) => {
         if (interaction.isChatInputCommand()) {

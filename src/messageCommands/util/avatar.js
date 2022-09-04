@@ -1,11 +1,13 @@
-const { Client, Message, EmbedBuilder } = require('discord.js');
+const { Message, EmbedBuilder } = require('discord.js');
+const { Senko } = require('../../structures/Senko');
 
 module.exports = {
     name: 'avatar',
-
+    description: 'dùng để xem avatar của mình hoặc một ai đó',
+    usages: ['skavatar', 'skavatar <tag một ai đó>'],
     /**
      * 
-     * @param { Client } client
+     * @param { Senko } client
      * @param { Message } message
      * @param { String[] } args
      */

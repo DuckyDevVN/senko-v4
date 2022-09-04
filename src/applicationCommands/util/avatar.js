@@ -1,4 +1,5 @@
-const { Client, ChatInputCommandInteraction, EmbedBuilder, ApplicationCommandOptionType  } = require('discord.js');
+const { ChatInputCommandInteraction, EmbedBuilder, ApplicationCommandOptionType  } = require('discord.js');
+const { Senko } = require('../../structures/Senko');
 
 module.exports = {
     name: 'avatar',
@@ -22,7 +23,7 @@ module.exports = {
 
     /**
      * 
-     * @param { Client } client
+     * @param { Senko } client
      * @param { ChatInputCommandInteraction } interaction
      * @param { any[] } args
      */

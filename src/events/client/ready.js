@@ -1,5 +1,4 @@
-const { Client } = require('discord.js');
-const config = require('../../../config');
+const { Senko } = require('../../structures/Senko');
 const { connect } = require('mongoose');
 // const { REST } = require("@discordjs/rest");
 // const chalk = require("chalk");
@@ -10,19 +9,17 @@ module.exports = {
 
     /**
      * 
-     * @param { Client } client
+     * @param { Senko } client
      */
     execute: async (c, client) => {
         console.log(`${client.user.tag} is ready!`);
 
-        (async() => {
-             connect(process.env.mongoURL).catch((e) => console.log(e))
-        })()
+        connect(process.env.mongoURL).catch((e) => console.log(e));
 
         const applicationCommands = [];
         client.applicationCommands.forEach(command => applicationCommands.push(command));
 
-        const guild = await client.guilds.fetch(config.guildID);
+        const guild = await client.guilds.fetch(client.config.guildID);
         guild.commands.set(applicationCommands);
         // const rest = new REST({ version: "9" }).setToken(process.env.token);
         // try {

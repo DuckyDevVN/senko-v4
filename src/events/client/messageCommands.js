@@ -1,5 +1,5 @@
-const { Client, Message } = require('discord.js');
-const config = require('../../../config');
+const { Message } = require('discord.js');
+const { Senko } = require('../../structures/Senko');
 
 module.exports = {
     name: 'messageCreate',
@@ -7,21 +7,21 @@ module.exports = {
     /**
      * 
      * @param { Message } message
-     * @param { Client } client
+     * @param { Senko } client
      */
     execute: async (message, client) => {
         if (
             message.author.bot
             || !message.guild
             || (
-                !message.content.toLowerCase().startsWith(config.prefix)
+                !message.content.toLowerCase().startsWith(client.config.prefix)
                 && !message.content.startsWith(`<@${client.user.id}>`)
             )
         ) return;
 
         const [cmd, ...args] = message.content.slice(
-            message.content.toLowerCase().startsWith(config.prefix)
-                ? config.prefix.length
+            message.content.toLowerCase().startsWith(client.config.prefix)
+                ? client.config.prefix.length
                 : `<@${client.user.id}>`.length
         ).trim().split(/ +/g);
         const command = client.messageCommands.get(cmd.toLowerCase()) || client.messageCommands.find(x => x.aliases?.includes(cmd.toLowerCase()));
