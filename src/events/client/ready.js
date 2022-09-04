@@ -1,5 +1,6 @@
 const { Client } = require('discord.js');
-const config = require('../../config');
+const config = require('../../../config');
+const { connect } = require('mongoose');
 // const { REST } = require("@discordjs/rest");
 // const chalk = require("chalk");
 // const { Routes } = require("discord-api-types/v9");
@@ -13,6 +14,10 @@ module.exports = {
      */
     execute: async (c, client) => {
         console.log(`${client.user.tag} is ready!`);
+
+        (async() => {
+             connect(process.env.mongoURL).catch((e) => console.log(e))
+        })()
 
         const applicationCommands = [];
         client.applicationCommands.forEach(command => applicationCommands.push(command));
