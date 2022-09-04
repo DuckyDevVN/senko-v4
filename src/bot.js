@@ -1,3 +1,6 @@
-const Senko = require('./structures/Senko');
+require('dotenv').config();
 
-Senko.build();
+const Senko = require('./structures/Senko');
+const senko = new Senko();
+
+senko.build();
