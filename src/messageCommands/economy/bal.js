@@ -12,7 +12,7 @@ module.exports = {
      * @param { String[] } args
      */
     execute: async (client, message, args) => {
-      const bal = await client.bal(message.author.id);
+      const bal = await client.moneyUser(message.author.id);
       const balField = [
         { name: '``SenkCoins``', value: `|_${bal.coin}${config.emojis.economyEmoji.coin}` },
         { name: '``SenkGoldCoin``', value: `|_${bal.gold}${config.emojis.economyEmoji.gold}` },

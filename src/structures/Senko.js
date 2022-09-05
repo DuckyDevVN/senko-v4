@@ -65,18 +65,20 @@ class Senko extends Client {
 
         this[`${folder}EventsLoaded`] = total;
     };
-    _loandfunction(folder) {
+
+    _loadfunctions(folder) {
         let total = 0;
         const path = join(__dirname, `../functions/${folder}`);
 
         readdirSync(path)
-            .filter(file => lstatSync(join(path, file)).isFile && file.endsWith('.js'))
+            .filter(file => lstatSync(join(path, file)).isFile() && file.endsWith('.js'))
             .forEach(file => {
-                const functions = require(`../functions/${folder}/${file}`)(this)
+                require(`../functions/${folder}/${file}`)(this);
                 total++;
             })
         this[`${folder}FunctionsLoaded`] = total;
     };
+
     _loadCommands(folder) {
         let total = 0;
         const path = join(__dirname, `../${folder}`);
@@ -102,9 +104,9 @@ class Senko extends Client {
     };
 
     build() {
-        this._loandfunction('mongo');
         this._loadEvents('client');
         this._loadEvents('mongo');
+        this._loadfunctions('mongo');
         this._loadCommands('messageCommands');
         this._loadCommands('applicationCommands');
         this.login(this.config.token);
@@ -128,12 +130,12 @@ class Senko extends Client {
      * @param { String } input
      */
     getID(input) {
+        if (!input) return;
         let output = input;
-
-        if (output.startsWith('<@')) output.slice(2);
-        if (output.startsWith('!')) output.slice(1);
-        if (output.endsWith('>')) output.slice(0, -1);
-
+        
+        if (output.startsWith('<@')) output = output.slice(2, -1);
+        if (output.startsWith('!')) output = output.slice(1);
+        
         return output;
     };
 };

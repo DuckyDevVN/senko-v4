@@ -1,6 +1,6 @@
 const { Message, EmbedBuilder } = require('discord.js');
 const Senko = require('../../structures/Senko');
-
+const config = require('../../../config')
 module.exports = {
     name: 'eval',
 
@@ -28,8 +28,8 @@ module.exports = {
             .setColor('Blurple')
             .setFields(
                 { name: '📄 Input', value: `\`\`\`js\n${process}\n\`\`\`` },
-                { name: '📄 Output', value: `\`\`\`js\n${e}\n\`\`\`` },
-                { name: '📄 Type of', value: `\`\`\`js\n${typeof e}\n\`\`\`` }
+                { name: '📄 Output', value: `\`\`\`${e}\`\`\`` },
+                { name: '📄 Type of', value: `\`\`\`${typeof e}\`\`\`` }
             );
 
         message.channel.send({ embeds: [embed] });

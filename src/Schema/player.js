@@ -1,7 +1,7 @@
 const { model, Schema } = require('mongoose')
 
 const player = {
-  coins: new model(
+  coins: model(
     "coisPlayer",
     new Schema({
       _id: String,
@@ -11,7 +11,7 @@ const player = {
       epic: Number
     })
   ),
-  bank: new model(
+  bank: model(
     "bankPlayer",
     new Schema({
       _id: String,
@@ -21,8 +21,17 @@ const player = {
       epic: Number
     })
   )
-}
-module.exports = { player }
+};
+const cooldown = {
+  daily: model(
+    "dailyCooldown",
+    new Schema({
+      _id: String,
+      cooldownTime: Number
+    })
+  )
+};
+module.exports = { player, cooldown }
 // const pumpking = new model(
 //   'pumpking',
 //   new Schema({
