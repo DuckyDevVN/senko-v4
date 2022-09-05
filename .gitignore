@@ -1,0 +1,11 @@
+# node modules
+node_modules
+package-lock.json
+
+# vscode
+.vs
+.vscode
+*.bat
+
+# secret
+.env
