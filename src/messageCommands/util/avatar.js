@@ -12,7 +12,6 @@ module.exports = {
      * @param { String[] } args
      */
     execute: async (client, message, args) => {
-        //  const member = /*await message.guild.members.fetch(client.getID(args[0])) || message.member message.memtions.members.first() || */message.guild.member.cache.get(args[0]) || message.member;
         const member = message.mentions.members.first() || message.member;
         client.getID(args[0]);
 

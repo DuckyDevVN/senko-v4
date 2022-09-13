@@ -24,7 +24,7 @@ const player = {
 };
 const cooldown = {
   daily: model(
-    "dailyCooldown",
+    "dailycooldowns",
     new Schema({
       _id: String,
       cooldownTime: Number

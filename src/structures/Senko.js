@@ -6,6 +6,7 @@ const { join } = require('path');
 const chalk = require('chalk');
 const config = require('../../config');
 const { player } = require('../Schema/player');
+const { Player } = require("discord-player");
 
 class Senko extends Client {
     constructor() {
@@ -13,13 +14,16 @@ class Senko extends Client {
             intents: [
                 GatewayIntentBits.Guilds,
                 GatewayIntentBits.MessageContent,
-                GatewayIntentBits.GuildMessages
+                GatewayIntentBits.GuildMessages,
+                GatewayIntentBits.GuildVoiceStates,
+                GatewayIntentBits.GuildMessageReactions
             ],
             partials: [
                 Partials.Channel,
                 Partials.GuildMember,
                 Partials.Message,
-                Partials.User
+                Partials.User,
+                Partials.Reaction
             ],
             allowedMentions: {
                 users: [],
@@ -45,9 +49,12 @@ class Senko extends Client {
          */
     };
 
+
+
     _loadEvents(folder) {
         let total = 0;
         const path = join(__dirname, `../events/${folder}`);
+        const player = new Player(this);
 
         readdirSync(path)
             .filter(file => lstatSync(join(path, file)).isFile() && file.endsWith('.js'))
@@ -56,6 +63,8 @@ class Senko extends Client {
 
                 if (folder === 'mongo') {
                     connection.on(event.name, (...args) => event.execute(...args, connection));
+                } else if (folder === 'player') {
+                    player.on(event.name, (...args) => event.execute(...args, (queue, track)))
                 } else {
                     this.on(event.name, (...args) => event.execute(...args, this));
                 };
@@ -110,6 +119,7 @@ class Senko extends Client {
         this._loadCommands('messageCommands');
         this._loadCommands('applicationCommands');
         this.login(this.config.token);
+
 
         const table = new AsciiTable3()
             .setHeading(chalk.green('Loaded'), chalk.green('Number'))

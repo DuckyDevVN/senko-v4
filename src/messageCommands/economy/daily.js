@@ -14,7 +14,7 @@ module.exports = {
    */
   execute: async (client, message, args) => {
     const timeOut = 86400000;
-    const data = cooldown.daily.findById(message.author.id);
+    const data = await cooldown.daily.findById(message.author.id);
     const coinAdd = Math.floor(Math.random() * 200);
     const embed = new EmbedBuilder()
       .setTitle(
@@ -24,7 +24,7 @@ module.exports = {
       .setTimestamp(Date.now())
       .setColor('Yellow');
     if (data) {
-      if (timeOut - (Date.now() - data.Thoigian) > 0) {
+      if (timeOut - (Date.now() - data.cooldownTime) > 0) {
         return message.reply({
           embeds: [
             new EmbedBuilder()
@@ -37,18 +37,18 @@ module.exports = {
           ],
         });
       } else {
-        cooldown.daily.findByIdAndUpdate(message.author.id, { cooldownTime: Date.now() });
+        await cooldown.daily.findByIdAndUpdate(message.author.id, { cooldownTime: Date.now() });
         client.addMoney(message.author.id, { coin: coinAdd })
         return message.reply({
           embeds: [embed]
         })
       }
     } else {
-      cooldown.daily.create({ _id: message.author.id, cooldownTime: Date.now() });
+      await cooldown.daily.create({ _id: message.author.id, cooldownTime: Date.now() });
       client.addMoney(message.author.id, { coin: coinAdd })
       return message.reply({
         embeds: [embed]
       })
     }
-  }
+  },
 };
