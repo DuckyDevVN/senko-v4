@@ -11,7 +11,7 @@ module.exports = {
      * 
      * @param { Senko } client
      */
-    execute: async (c, client) => {
+    execute: async (client) => {
         console.log(`${client.user.tag} is ready!`);
 
         connect(process.env.mongoURL).catch((e) => console.log(e));

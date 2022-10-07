@@ -5,6 +5,13 @@ module.exports = {
         pre: '<:SenkoPremiumCoins:1011273005739016263>',
         epic: '<:SenkoEpicCoins:1011273171627945984>',
     },
+    /**
+     * chú thích
+     * a=♠
+     * b=♣
+     * c=♦
+     * d=♥
+     */
     caseEmoji: {
         a3: "<:emoji_1:1000294915449831525>",
         b3: "<:emoji_2:1000294964649009192>",

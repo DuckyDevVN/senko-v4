@@ -1,11 +1,10 @@
-const { Client, Collection, GatewayIntentBits, Partials, ActivityType } = require('discord.js');
+const { Client, Collection, GatewayIntentBits, Partials, ActivityType, EmbedBuilder } = require('discord.js');
 const { connection, model, Schema } = require('mongoose');
 const { AsciiTable3 } = require('ascii-table3');
 const { readdirSync, lstatSync } = require('fs');
 const { join } = require('path');
 const chalk = require('chalk');
 const config = require('../../config');
-const { player } = require('../Schema/player');
 const { Player } = require("discord-player");
 
 class Senko extends Client {
@@ -36,17 +35,9 @@ class Senko extends Client {
         this.config = config;
         this.messageCommands = new Collection();
         this.applicationCommands = new Collection();
+        this.playing = new Collection();
+        this.player = new Player(this);
 
-        // database
-        // cái này là function à
-        // yes
-        // nếu thế thì chắc sẽ tách file ra cho dễ tìm
-        /**
-         *         this.bal = (id) => Promise(f => {
-            const data = await player.findOne(id)
-            if (!data) re ful(0)
-        })
-         */
     };
 
 
@@ -54,7 +45,6 @@ class Senko extends Client {
     _loadEvents(folder) {
         let total = 0;
         const path = join(__dirname, `../events/${folder}`);
-        const player = new Player(this);
 
         readdirSync(path)
             .filter(file => lstatSync(join(path, file)).isFile() && file.endsWith('.js'))
@@ -63,8 +53,6 @@ class Senko extends Client {
 
                 if (folder === 'mongo') {
                     connection.on(event.name, (...args) => event.execute(...args, connection));
-                } else if (folder === 'player') {
-                    player.on(event.name, (...args) => event.execute(...args, (queue, track)))
                 } else {
                     this.on(event.name, (...args) => event.execute(...args, this));
                 };
