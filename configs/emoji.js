@@ -11,7 +11,8 @@ module.exports = {
      * b=♣
      * c=♦
      * d=♥
-     */
+     */ 
+    emojiPumpkin: "🎃",
     caseEmoji: {
         a3: "<:emoji_1:1000294915449831525>",
         b3: "<:emoji_2:1000294964649009192>",

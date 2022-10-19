@@ -32,7 +32,6 @@ module.exports = {
       embeds: [
         new EmbedBuilder()
         .setDescription(`<@${message.author.id}>, đã bật autoplay!`)
-        .setImage('https://cdn.discordapp.com/attachments/1010007045157687389/1027241970529218600/intro.gif')
         .setColor("Yellow")
       ]
     }) 

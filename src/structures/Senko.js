@@ -36,7 +36,17 @@ class Senko extends Client {
         this.messageCommands = new Collection();
         this.applicationCommands = new Collection();
         this.playing = new Collection();
-        this.player = new Player(this);
+        this.player = new Player(this, {
+            ytdlOptions: {
+                quality: "highestaudio",
+                highWaterMark: 1 << 25,
+                requestOptions: {
+                  headers: {
+                    cookie: "SIDCC=AEf-XMRDgnloL5npLUnfyKuAzbzl0cYjX0HWQM6bQ5UBV6R1k-p6DmW3BKAYvYKoXOX8g20wrck"
+                  }
+                }
+            },
+        });
 
     };
 

@@ -1,4 +1,4 @@
-const { QueryType } = require("discord-player");
+const { QueryType, QueueRepeatMode } = require("discord-player");
 const {
   Message,
   EmbedBuilder,
@@ -26,10 +26,6 @@ module.exports = {
     if (!message.member.voice.channel) return message.reply(`<@${message.author.id}>, bạn hiện tại không có trong kênh thoại`);
 
     const queue = await client.player.createQueue(message.member.guild, {
-        ytdlOptions: {
-            quality: "highestaudio",
-            highWaterMark: 1 << 25
-        },
         metadata: {
           channel: message.channel,
           voice: message.member.voice
@@ -71,9 +67,8 @@ module.exports = {
     })
 
     if (!queue.playing) await queue.play();
-
-    await message.delete();
-
+    queue.setRepeatMode(QueueRepeatMode.AUTOPLAY);
+    
   }
 
 }

@@ -31,10 +31,11 @@ const cooldown = {
     })
   )
 };
-module.exports = { player, cooldown }
-// const pumpking = new model(
-//   'pumpking',
-//   new Schema({
-//     _id: String,
-//     pumpking: Number
-//   }))
+const pumpking = new model(
+  'pumpking',
+  new Schema({
+    _id: String,
+    pum: Number
+  })
+);
+module.exports = { player, cooldown,  pumpking}
