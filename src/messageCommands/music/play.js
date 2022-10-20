@@ -14,6 +14,7 @@ module.exports = {
   name: "play",
   description: "dùng để nghe nhạc!",
   usages: ["skplay [tên nhạc]", "skplay [link nhạc]"],
+  aliases: ["p"],
   /**
    *
    * @param { Senko } client
@@ -33,7 +34,7 @@ module.exports = {
         leaveOnEnd: false,
         leaveOnStop: true,
         leaveOnEmpty: true,
-        initialVolume: 80,
+        initialVolume: 50,
         bufferingTimeout: 200,
         leaveOnEmptyCooldown: 60 * 1000,
     });

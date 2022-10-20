@@ -44,10 +44,8 @@ module.exports = {
 
         client.player.on("trackEnd", async (queue, track) => {
             const message = await client.playing.get(queue);
-            const msg = await queue.metadata.channel.messages.cache.get(message.id);
-            await msg.edit({
-                components: []
-            })
+            if (!message) return;
+            await message.delete()
         });
 
         // QUEUE END
